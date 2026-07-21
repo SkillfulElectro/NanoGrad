@@ -18,7 +18,7 @@ def forward(x):
     return output
 
 
-learning_rate = 0.001 # Increased learning rate for faster overfitting
+learning_rate = 0.001 
 
 
 all_neurons = hidden_layer + [output_neuron]
