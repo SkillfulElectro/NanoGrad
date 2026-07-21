@@ -33,7 +33,7 @@ class Value:
 
   def tanh(self):
     out_data = math.tanh(self.data)
-    # The local gradient of tanh(x) is (1 - tanh(x)^2)
+    
     return Value(out_data, childern=((self, lambda x : math.tanh(x)),))
 
   def relu(self):
@@ -48,8 +48,8 @@ class Value:
     self.grad += prev_grad
 
     for child , grad_fn in self.childern:
-      grad = gradformula(grad_fn , child.data) * self.grad
-      nanograd(child , grad)
+      grad = self.gradformula(grad_fn , child.data) * self.grad
+      child.backward(child , grad)
 
 
     return
@@ -57,7 +57,7 @@ class Value:
   def zerograd(self):
     self.grad = 0.0
     for child , _ in self.childern:
-      zerograd(child)
+      child.zerograd(child)
 
 
 class Neuron:
