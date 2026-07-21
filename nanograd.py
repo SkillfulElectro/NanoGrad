@@ -1,6 +1,7 @@
 import math
 import numpy as np
 
+
 class Value:
   def __init__(self , data , childern=() , grad=0.0):
     self.data = data
@@ -40,7 +41,7 @@ class Value:
     out_data = max(0 , self.data)
     return Value(out_data, childern=((self, lambda x : max(0 , x)),))
 
-  def gradformula(func , val , h=0.0001):
+  def gradformula(self , func , val , h=0.0001):
     return (func(val + h) - func(val)) / h
 
 
@@ -49,7 +50,7 @@ class Value:
 
     for child , grad_fn in self.childern:
       grad = self.gradformula(grad_fn , child.data) * self.grad
-      child.backward(child , grad)
+      child.backward(grad)
 
 
     return
@@ -57,7 +58,7 @@ class Value:
   def zerograd(self):
     self.grad = 0.0
     for child , _ in self.childern:
-      child.zerograd(child)
+      child.zerograd()
 
 
 class Neuron:
