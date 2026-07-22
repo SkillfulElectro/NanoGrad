@@ -12,29 +12,37 @@ class Value:
     return f"Value(data={self.data})"
 
   def __add__(self , other):
+    if isinstance(other, Value): Value(other)
+    
     return Value(self.data + other.data , childern=((self , lambda x: x + other.data ) , (other , lambda x: self.data + x)))
 
   def __sub__(self , other):
+    if isinstance(other, Value): Value(other)
+
     return Value(self.data - other.data , childern=((self , lambda x: x - other.data ) , (other , lambda x: self.data - x)))
 
   def __mul__(self , other):
+    if isinstance(other, Value): Value(other)
+
     return Value(self.data * other.data , childern=((self , lambda x: x * other.data ) , (other , lambda x: x * self.data)))
 
   def __pow__(self, other):
-      if isinstance(other, Value):
-          return Value(self.data ** other.data, childern=((self, lambda x: x ** other.data), (other, lambda x: self.data ** x)))
-      else:
-          return Value(self.data ** other, childern=((self, lambda x: x ** other),))
+    if isinstance(other, Value): Value(other)
+
+    return Value(self.data ** other, childern=((self, lambda x: x ** other),))
 
   def __truediv__(self , other):
+    if isinstance(other, Value): Value(other)
     return Value(self.data / other.data , childern=((self , lambda x: x / other.data ) , (other , lambda x: self.data / x)))
 
   def __neg__(self):
+    if isinstance(other, Value): Value(other)
+
     return Value(-1 * self.data , childern=((self , lambda x: -1 * x ),))
 
   def tanh(self):
     out_data = math.tanh(self.data)
-    
+
     return Value(out_data, childern=((self, lambda x : math.tanh(x)),))
 
   def relu(self):
